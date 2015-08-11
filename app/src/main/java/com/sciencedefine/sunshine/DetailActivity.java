@@ -1,9 +1,11 @@
 package com.sciencedefine.sunshine;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class DetailActivity extends ActionBarActivity {
 
@@ -11,6 +13,10 @@ public class DetailActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        Intent intent = getIntent();
+        String forecast = intent.getStringExtra(Intent.EXTRA_TEXT);
+        TextView forecastTextView = (TextView) findViewById(R.id.forecast_text);
+        forecastTextView.setText(forecast);
     }
 
 
