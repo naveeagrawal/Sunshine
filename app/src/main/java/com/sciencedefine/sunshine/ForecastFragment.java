@@ -273,9 +273,7 @@ public class ForecastFragment extends Fragment {
             super.onPostExecute(strings);
             if(strings != null){
                 forecastAdapter.clear();
-                for(String dayForecastStr: strings){
-                    forecastAdapter.add(dayForecastStr);
-                }
+                forecastAdapter.addAll(strings);
             }
         }
     }
