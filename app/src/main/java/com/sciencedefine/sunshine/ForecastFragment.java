@@ -68,17 +68,7 @@ public class ForecastFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        String[] forecastArray = {
-                "Today - Sunny - 88/63",
-                "Tomorrow - Foggy - 70/40",
-                "Wed - Cloudy - 40/32",
-                "Thu - Rain - 60/54",
-                "Fri - Windy - 80/46",
-                "Sat - Thunderstorm - 60/45",
-                "Sun - Clear - 76/60"
-        };
-        List<String> weekForecast = new ArrayList<String>(Arrays.asList(forecastArray));
-        forecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, weekForecast);
+        forecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, new ArrayList<String>());
         ListView sListView = (ListView) rootView.findViewById(R.id.listview_forecast);
         sListView.setAdapter(forecastAdapter);
         sListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -95,7 +85,6 @@ public class ForecastFragment extends Fragment {
     private void updateWeather(){
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String pincodePref = sharedPref.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-        Log.v("Location Pincode", pincodePref);
         FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
         fetchWeatherTask.execute(pincodePref);
     }
@@ -104,12 +93,13 @@ public class ForecastFragment extends Fragment {
      * Called when the Fragment is visible to the user.  This is generally
      * tied to {@link Activity#onStart() Activity.onStart} of the containing
      * Activity's lifecycle.
+     * Update Weather on start of the fragment
      */
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        updateWeather();
-//    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
+    }
 
     public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
@@ -352,11 +342,6 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String pincodePref = sharedPref.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-            Log.v("Location Pincode", pincodePref);
-            FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-            fetchWeatherTask.execute(pincodePref);
             return true;
         }
         if (id == R.id.action_settings_forecast_fragment) {
