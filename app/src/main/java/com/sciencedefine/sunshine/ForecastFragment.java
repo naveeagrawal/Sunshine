@@ -85,7 +85,6 @@ public class ForecastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String forecast = forecastAdapter.getItem(i);
-                Toast.makeText(getActivity(), forecast, Toast.LENGTH_LONG).show();
                 Intent detailIntent = new Intent(getActivity(), DetailActivity.class);
                 detailIntent.putExtra(Intent.EXTRA_TEXT, forecast);
                 startActivity(detailIntent);
@@ -93,6 +92,24 @@ public class ForecastFragment extends Fragment {
         });
         return rootView;
     }
+    private void updateWeather(){
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String pincodePref = sharedPref.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        Log.v("Location Pincode", pincodePref);
+        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
+        fetchWeatherTask.execute(pincodePref);
+    }
+
+    /**
+     * Called when the Fragment is visible to the user.  This is generally
+     * tied to {@link Activity#onStart() Activity.onStart} of the containing
+     * Activity's lifecycle.
+     */
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        updateWeather();
+//    }
 
     public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
@@ -284,6 +301,9 @@ public class ForecastFragment extends Fragment {
         }
 
         @Override
+        /**
+         * @param strings resultingForecast String array received from doInBackground
+         */
         protected void onPostExecute(String[] strings) {
             super.onPostExecute(strings);
             if(strings != null){
