@@ -1,9 +1,11 @@
 package com.sciencedefine.sunshine;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
 import android.util.Log;
@@ -330,8 +332,17 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String pincodePref = sharedPref.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+            Log.v("Location Pincode", pincodePref);
             FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-            fetchWeatherTask.execute("384003");
+            fetchWeatherTask.execute(pincodePref);
+            return true;
+        }
+        if (id == R.id.action_settings_forecast_fragment) {
+            Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+            startActivity(settingsIntent);
+            //Toast.makeText(getActivity(), "Settings", Toast.LENGTH_LONG).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
