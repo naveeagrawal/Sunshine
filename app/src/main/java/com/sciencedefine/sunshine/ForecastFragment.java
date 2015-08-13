@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,8 +31,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -91,7 +88,7 @@ public class ForecastFragment extends Fragment {
 
     /**
      * Called when the Fragment is visible to the user.  This is generally
-     * tied to {@link Activity#onStart() Activity.onStart} of the containing
+     * tied to  of the containing
      * Activity's lifecycle.
      * Update Weather on start of the fragment
      */
@@ -116,7 +113,11 @@ public class ForecastFragment extends Fragment {
         /**
          * Prepare the weather high/lows for presentation.
          */
-        private String formatHighLows(double high, double low) {
+        private String formatHighLows(double high, double low, String unitType) {
+            if(unitType.equals(getString(R.string.pref_units_imperial))){
+                high = high * 1.8 + 32;
+                low = low * 1.8 + 32;
+            }
             // For presentation, assume the user doesn't care about tenths of a degree.
             long roundedHigh = Math.round(high);
             long roundedLow = Math.round(low);
@@ -185,13 +186,16 @@ public class ForecastFragment extends Fragment {
                 JSONObject weatherObject = dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
                 description = weatherObject.getString(OWM_DESCRIPTION);
 
+                String temperatureUnitPref = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                        .getString(getString(R.string.pref_temperature_unit_key), getString(R.string.pref_units_metric));
+
                 // Temperatures are in a child object called "temp".  Try not to name variables
                 // "temp" when working with temperature.  It confuses everybody.
                 JSONObject temperatureObject = dayForecast.getJSONObject(OWM_TEMPERATURE);
                 double high = temperatureObject.getDouble(OWM_MAX);
                 double low = temperatureObject.getDouble(OWM_MIN);
 
-                highAndLow = formatHighLows(high, low);
+                highAndLow = formatHighLows(high, low, temperatureUnitPref);
                 resultStrs[i] = day + " - " + description + " - " + highAndLow;
             }
             return resultStrs;

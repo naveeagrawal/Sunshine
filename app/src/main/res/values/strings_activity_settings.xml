@@ -10,8 +10,25 @@
 
     <string name="title_activity_settings">Settings</string>
 
-    <!-- Strings related to Settings -->
+    <!-- strings related to temperature settings -->
+    <string name="pref_temperature_unit_key" translatable="false">temperature_unit</string>
 
+    <string name="pref_temperature_unit_title">Select temperature unit</string>
+
+    <string name="pref_units_label_metric">Celsius</string>
+    <string name="pref_units_label_imperial">Fahrenheit</string>
+    <string name="pref_units_metric" translatable="false">metric</string>
+    <string name="pref_units_imperial" translatable="false">imperial</string>
+
+    <string-array name="pref_temperature_unit_choices">
+        <item>@string/pref_units_label_metric</item>
+        <item>@string/pref_units_label_imperial</item>
+    </string-array>
+
+    <string-array name="pref_temperature_unit_values">
+        <item>@string/pref_units_metric</item>
+        <item>@string/pref_units_imperial</item>
+    </string-array>
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
 
@@ -29,11 +46,7 @@
         <item>When possible</item>
         <item>Never</item>
     </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
+
 
     <!-- Example settings for Data & Sync -->
     <string name="pref_header_data_sync">Data &amp; sync</string>
