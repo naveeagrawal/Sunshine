@@ -9,4 +9,8 @@
         android:id="@+id/action_settings_forecast_fragment"
         android:title="@string/action_settings"
         />
+    <item
+        android:id="@+id/action_go_to_location"
+        android:title="@string/action_go_to_location"
+        />
 </menu>

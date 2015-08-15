@@ -8,13 +8,14 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 public class DetailActivity extends ActionBarActivity {
+    private String forecast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         Intent intent = getIntent();
-        String forecast = intent.getStringExtra(Intent.EXTRA_TEXT);
+        forecast = intent.getStringExtra(Intent.EXTRA_TEXT);
         TextView forecastTextView = (TextView) findViewById(R.id.forecast_text);
         forecastTextView.setText(forecast);
     }
@@ -35,7 +36,12 @@ public class DetailActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_item_share) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, forecast + " #SunshineApp");
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
             return true;
         }
 

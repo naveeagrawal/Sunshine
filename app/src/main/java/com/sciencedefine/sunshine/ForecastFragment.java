@@ -354,6 +354,16 @@ public class ForecastFragment extends Fragment {
             //Toast.makeText(getActivity(), "Settings", Toast.LENGTH_LONG).show();
             return true;
         }
+        if (id == R.id.action_go_to_location){
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String pincodePref = sharedPref.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+            Uri mapIntentUri = Uri.parse("geo:0,0?q=" + pincodePref);
+            Log.v("Map URI", mapIntentUri.toString());
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapIntentUri);
+            if (mapIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivity(mapIntent);
+            }
+        }
         return super.onOptionsItemSelected(item);
     }
 }
