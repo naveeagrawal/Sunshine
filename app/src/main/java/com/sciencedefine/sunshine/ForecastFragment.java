@@ -56,14 +56,75 @@ public class ForecastFragment extends Fragment {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.v("FRAGMENT LIFECYCLE: ", "onCreate");
         super.onCreate(savedInstanceState);
         //Call this function to enable this fragment to handle menu events.
         setHasOptionsMenu(true);
     }
 
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     * This is generally
+     * tied to {@link Activity#onResume() Activity.onResume} of the containing
+     * Activity's lifecycle.
+     */
+    @Override
+    public void onResume() {
+        Log.v("FRAGMENT LIFECYCLE: ", "onResume");
+        super.onResume();
+    }
+
+    /**
+     * Called when the Fragment is no longer resumed.  This is generally
+     * tied to {@link Activity#onPause() Activity.onPause} of the containing
+     * Activity's lifecycle.
+     */
+    @Override
+    public void onPause() {
+        Log.v("FRAGMENT LIFECYCLE: ", "onPause");
+        super.onPause();
+    }
+
+    /**
+     * Called when the Fragment is no longer started.  This is generally
+     * tied to {@link Activity#onStop() Activity.onStop} of the containing
+     * Activity's lifecycle.
+     */
+    @Override
+    public void onStop() {
+        Log.v("FRAGMENT LIFECYCLE: ", "onStop");
+        super.onStop();
+    }
+
+    /**
+     * Called when the fragment is no longer in use.  This is called
+     * after {@link #onStop()} and before {@link #onDetach()}.
+     */
+    @Override
+    public void onDestroy() {
+        Log.v("FRAGMENT LIFECYCLE: ", "onDestroy");
+        super.onDestroy();
+    }
+
+    /**
+     * Called when the view previously created by {@link #onCreateView} has
+     * been detached from the fragment.  The next time the fragment needs
+     * to be displayed, a new view will be created.  This is called
+     * after {@link #onStop()} and before {@link #onDestroy()}.  It is called
+     * <em>regardless</em> of whether {@link #onCreateView} returned a
+     * non-null view.  Internally it is called after the view's state has
+     * been saved but before it has been removed from its parent.
+     */
+    @Override
+    public void onDestroyView() {
+        Log.v("FRAGMENT LIFECYCLE: ", "onDestroyView");
+        super.onDestroyView();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.v("FRAGMENT LIFECYCLE: ", "onCreateView");
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         forecastAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, new ArrayList<String>());
         ListView sListView = (ListView) rootView.findViewById(R.id.listview_forecast);
